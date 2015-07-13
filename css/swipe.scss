@@ -1,0 +1,49 @@
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+  > .slide-content {
+  	position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+  }
+}
+
+.swipe-global{
+	background-color: #222;
+	overflow: hidden;
+	max-width: 400px;
+	width: 100%;
+	margin: 0 auto;
+	padding-left: 30px;
+}
+.swipe-wrapper{
+	width:90000px;
+	line-height: 0;
+}
+
+.slide{
+		display:inline-block;
+	width: 300px;
+	height: 200px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:center;
+	transition: transform 0.2s ease-in;    
+  /*@include aspect-ratio(3, 2);*/
+}
+.isSliding{
+	transition: transform 0.2s ease;
+}
+.isTouched{
+	/*transform: scale(1.1);*/
+}
