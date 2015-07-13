@@ -50,11 +50,11 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
                 window.slider.longTouch = true;
             }, 250);
 */
-            this.touchstartx = event.touches[0].pageX || event.originalEvent.touches[0].pageX;            
+            this.touchstartx = event.touches[0].pageX || event.changedTouches[0].pageX;
         },
 
         move: function (event) {
-            this.touchmovex = event.touches[0].pageX || event.originalEvent.touches[0].pageX;
+            this.touchmovex = event.touches[0].pageX || event.changedTouches[0].pageX;
 
             this.movex = this.touchstartx - this.touchmovex;           
 
