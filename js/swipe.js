@@ -59,14 +59,14 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
             this.movex = this.touchstartx - this.touchmovex;           
 
             document.getElementById('swiper').style.transform = 'translate3d(-' + this.getCurrentPos() + 'px,0,0)';
-            //event.target.parentNode.style.transform = 'translate3d(-' + this.getCurrentPos() + 'px,0,0)';
         },
 
         end: function (event) {
             document.getElementById('swiper').classList.add('isSliding');            
 
-            if (Math.abs(this.movex) > (this.slideWidth / 10) && this.index >= 0) {
-                (this.movex > 0)? this.index++ : this.index--;
+            if (Math.abs(this.movex) > (this.slideWidth / 10)) {
+                if (this.movex > 0) this.index++;
+                else if (this.index >= 1) this.index--;
             }
 
             this.currentY = 300 * this.index;
