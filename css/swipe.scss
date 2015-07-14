@@ -1,3 +1,8 @@
+
+$size-mobile: 400px;
+$size-tablet: 800px;
+$size-desktop: 1200px;
+
 @mixin aspect-ratio($width, $height) {
   position: relative;
   &:before {
@@ -25,15 +30,28 @@
 	width: 100%;
 	margin: 0 auto;
 	padding-left: 30px;
-}
-@media screen and (min-width: 800px){
-	.swipe-global{
+
+	@media screen and (min-width: $size-tablet){
 		max-width:700px;
 	}
+
+	@media screen and (min-width: $size-desktop){
+		max-width:100%;
+		overflow: visible;		
+		padding:0;
+	}
+
+
 }
+
 .swipe-wrapper{
 	width:90000px;
 	line-height: 0;
+
+	@media screen and (min-width: $size-desktop){
+		max-width:100%;	
+	}
+
 }
 
 .slide{
@@ -45,13 +63,26 @@
 	background-position:center;
 	transition: transform 0.2s ease-in;    
   /*@include aspect-ratio(3, 2);*/
+    @media screen and (min-width: $size-tablet){
+    	height: 400px;
+		width:600px;
+    }
+
+    @media screen and(min-width: $size-desktop){
+    	height: auto;
+    	width: 33.3333%;
+    }
 }
-@media screen and (min-width: 800px){
-	.slide{
-		height: 400px;
-		width:600px;		
-	}
+
+.slide:after{
+	@media screen and(min-width: $size-desktop){
+		content: "";
+		display:block;
+    	padding-top: (2 / 3) * 100%;
+    	width: 100%;
+    }	
 }
+
 .isSliding{
 	transition: transform 0.2s ease;
 }
