@@ -18,12 +18,25 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
         index: 0,
         //slideCount = document.getElementById('swiper').getElementsByClassName('slide').length,
         currentY: 0,
+        isWebkit: undefined,
         slideDistance: function(){
             return (window.innerWidth > 800) ? 600 : 300;
         },
 
+        setSwipeTransformX: function (x) {
+            if (this.isWebkit) {
+                document.getElementById('swiper').style.webkitTransform = 'translate3d(-' + x + 'px,0,0)';
+            } else {
+                document.getElementById('swiper').style.transform = 'translate3d(-' + x + 'px,0,0)';
+            }
+        },
+
         init: function () {
             this.bindUIEvents();
+
+            var testEl = document.createElement('div');
+            testEl.style.webkitTransform = 'translate(0)';
+            this.isWebkit = Boolean(testEl.getAttribute('style').toLowerCase().indexOf('webkit') !== -1);
 
             //document.getElementById('swiper').style.width = document.getElementById('swiper').getElementsByClassName('slide').length * 100 + '%';
             //document.getElementById('swiper').style.width = 1000 + '%';
@@ -64,7 +77,8 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
 
             this.movex = this.touchstartx - this.touchmovex;           
 
-            document.getElementById('swiper').style.transform = 'translate3d(-' + this.getCurrentPos() + 'px,0,0)';
+            this.setSwipeTransformX(this.getCurrentPos());
+            //document.getElementById('swiper').style.transform = 'translate3d(-' + this.getCurrentPos() + 'px,0,0)';
         },
 
         end: function (event) {
@@ -79,7 +93,8 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
 
             this.currentY = this.slideDistance() * this.index;
 
-            document.getElementById('swiper').style.transform = 'translate3d(-' + this.currentY + 'px,0,0)';            
+            this.setSwipeTransformX(this.currentY);
+            //document.getElementById('swiper').style.transform = 'translate3d(-' + this.currentY + 'px,0,0)';            
             event.target.classList.remove('isTouched');
             this.movex = 0;            
         }
