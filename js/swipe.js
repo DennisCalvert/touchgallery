@@ -18,6 +18,9 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
         index: 0,
         //slideCount = document.getElementById('swiper').getElementsByClassName('slide').length,
         currentY: 0,
+        slideDistance: function(){
+            return (window.innerWidth > 800) ? 600 : 300;
+        },
 
         init: function () {
             this.bindUIEvents();
@@ -35,9 +38,12 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
         },
 
         getCurrentPos: function (){
-            if(this.index == 0) return 0 + this.movex;
+            if(this.index == 0){
+                return 0 + this.movex;
+            }
+            //var slideDistance = (window.innerWidth > 800) ? 600 : 300;
 
-            return (300 * this.index + this.movex);
+            return (this.slideDistance() * this.index + this.movex);
         },
 
 
@@ -69,7 +75,9 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
                 else if (this.index >= 1) this.index--;
             }
 
-            this.currentY = 300 * this.index;
+            //var slideDistance = (window.innerWidth > 800) ? 600 : 300;
+
+            this.currentY = this.slideDistance() * this.index;
 
             document.getElementById('swiper').style.transform = 'translate3d(-' + this.currentY + 'px,0,0)';            
             event.target.classList.remove('isTouched');
