@@ -1,8 +1,8 @@
-var app = angular.module('SwipeApp', [])
+var app = angular.module('SwipeApp', []);
 
 app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, FlickrService) {
-
-    FlickrService.get().success(function (data) {         
+'use strict';
+    FlickrService.get().success(function (data) {        
         $scope.photos = data.photos;
         document.getElementById('swiper').style.width = $scope.photos.length * 100 + '%';        
     });
@@ -40,13 +40,13 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
         bindUIEvents: function () {
             var slider = document.getElementById("swiper"),
                 self = this;
-            slider.addEventListener("touchstart", function (e) { self.start(e) });
-            slider.addEventListener("touchmove", function (e) { self.move(e) });
-            slider.addEventListener("touchend", function (e) { self.end(e) });
+            slider.addEventListener("touchstart", function (e) { self.start(e); });
+            slider.addEventListener("touchmove", function (e) { self.move(e); });
+            slider.addEventListener("touchend", function (e) { self.end(e); });
         },
 
         getCurrentPos: function (){
-            if(this.index == 0){
+            if(this.index === 0){
                 return 0 + this.movex;
             }
             return (this.slideDistance() * this.index + this.movex);
@@ -71,8 +71,8 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
             document.getElementById('swiper').classList.add('isSliding');            
 
             if (Math.abs(this.movex) > (this.slideWidth / 10)) {
-                if (this.movex > 0) this.index++;
-                else if (this.index >= 1) this.index--;
+                if (this.movex > 0) { this.index += 1; }
+                else if (this.index >= 1) { this.index -= 1; }
             }
             this.currentY = this.slideDistance() * this.index;
             this.setSwipeTransformX(this.currentY);            
@@ -85,7 +85,7 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
 } ]);
 
 app.factory('FlickrService', ['$http', function ($http) {
-
+'use strict';
     return {
         xmlhttp: function (req) {
             return $http(req)
@@ -102,8 +102,8 @@ app.factory('FlickrService', ['$http', function ($http) {
             var req = {
                 method: 'GET',
                 url: 'http://denniscalvert.azurewebsites.net/api/flickr/'
-            }
+            };
             return this.xmlhttp(req);
         }
-    }
+    };
 } ]);
