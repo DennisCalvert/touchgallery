@@ -4,21 +4,19 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
 
     FlickrService.get().success(function (data) {         
         $scope.photos = data.photos;
-        document.getElementById('swiper').style.width = $scope.photos.length * 100 + '%';
-        console.log(document.getElementById('swiper').style.width);
+        document.getElementById('swiper').style.width = $scope.photos.length * 100 + '%';        
     });
 
-        var swipe = {
+    var swipe = {
 
         slideWidth: document.body.clientWidth,
         touchstartx: undefined,
         touchmovex: undefined,
-        movex: 0,
-        longTouch: undefined,
-        index: 0,
-        //slideCount = document.getElementById('swiper').getElementsByClassName('slide').length,
+        movex: 0,        
+        index: 0,        
         currentY: 0,
         isWebkit: undefined,
+
         slideDistance: function(){
             return (window.innerWidth > 800) ? 600 : 300;
         },
@@ -37,9 +35,6 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
             var testEl = document.createElement('div');
             testEl.style.webkitTransform = 'translate(0)';
             this.isWebkit = Boolean(testEl.getAttribute('style').toLowerCase().indexOf('webkit') !== -1);
-
-            //document.getElementById('swiper').style.width = document.getElementById('swiper').getElementsByClassName('slide').length * 100 + '%';
-            //document.getElementById('swiper').style.width = 1000 + '%';
         },
 
         bindUIEvents: function () {
@@ -54,8 +49,6 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
             if(this.index == 0){
                 return 0 + this.movex;
             }
-            //var slideDistance = (window.innerWidth > 800) ? 600 : 300;
-
             return (this.slideDistance() * this.index + this.movex);
         },
 
@@ -63,22 +56,15 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
         start: function (event) {            
             document.getElementById('swiper').classList.remove('isSliding');
             event.target.classList.add('isTouched');
-/*
-            this.longTouch = false;
-            setTimeout(function () {
-                window.slider.longTouch = true;
-            }, 250);
-*/
             this.touchstartx = event.touches[0].pageX || event.changedTouches[0].pageX;
         },
 
         move: function (event) {
+            event.stopPropagation(); 
+            event.stopImmediatePropagation();
             this.touchmovex = event.touches[0].pageX || event.changedTouches[0].pageX;
-
             this.movex = this.touchstartx - this.touchmovex;           
-
-            this.setSwipeTransformX(this.getCurrentPos());
-            //document.getElementById('swiper').style.transform = 'translate3d(-' + this.getCurrentPos() + 'px,0,0)';
+            this.setSwipeTransformX(this.getCurrentPos());            
         },
 
         end: function (event) {
@@ -88,13 +74,8 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
                 if (this.movex > 0) this.index++;
                 else if (this.index >= 1) this.index--;
             }
-
-            //var slideDistance = (window.innerWidth > 800) ? 600 : 300;
-
             this.currentY = this.slideDistance() * this.index;
-
-            this.setSwipeTransformX(this.currentY);
-            //document.getElementById('swiper').style.transform = 'translate3d(-' + this.currentY + 'px,0,0)';            
+            this.setSwipeTransformX(this.currentY);            
             event.target.classList.remove('isTouched');
             this.movex = 0;            
         }
