@@ -18,7 +18,7 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
         isWebkit: undefined,
 
         slideDistance: function(){
-            return (window.innerWidth > 800) ? 600 : 300;
+            return (window.innerWidth > 660) ? 600 : 300;
         },
 
         setSwipeTransformX: function (x) {
