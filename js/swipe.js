@@ -3,13 +3,12 @@
 // allow photos to 
 //        1) be inject via JSON
 //        2) scrape the DOM
+// <div ng-repeat="photo in photos track by $index" class="slide" style="background-image: url('{{photo}}');">
 
-var app = angular.module('SwipeApp', []);
 
-app.controller('SwipeCtrl', ['$scope', function ($scope) {
 'use strict';
     
-    $scope.photos = [
+    var photos = [
         'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/0.jpg',
         'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/1.jpg',
         'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/2.jpg',
@@ -19,15 +18,27 @@ app.controller('SwipeCtrl', ['$scope', function ($scope) {
         'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/6.jpg',
     ];
     
-    document.getElementById('swiper').style.width = $scope.photos.length * 100 + '%';
+    const photoFragment = new DocumentFragment();
+
+    photos.forEach (
+        photoURL => {
+            const photoWrapper = document.createElement("div")
+            photoWrapper.classList.add("slide")
+            photoWrapper.style.backgroundImage = `url(${photoURL})`;
+            photoFragment.appendChild(photoWrapper)
+        }
+    )
+
+    document.getElementById('swiper').appendChild(photoFragment);
+    document.getElementById('swiper').style.width = photos.length * 100 + '%';
 
     var swipe = {
 
         slideWidth: document.body.clientWidth,
         touchstartx: undefined,
         touchmovex: undefined,
-        movex: 0,        
-        index: 0,        
+        movex: 0,
+        index: 0,
         currentY: 0,
         isWebkit: undefined,
 
@@ -95,5 +106,3 @@ app.controller('SwipeCtrl', ['$scope', function ($scope) {
         }
     };
     swipe.init();
-
-} ]);
