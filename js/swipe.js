@@ -6,7 +6,7 @@
 
 var app = angular.module('SwipeApp', []);
 
-app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, FlickrService) {
+app.controller('SwipeCtrl', ['$scope', function ($scope) {
 'use strict';
     
     $scope.photos = [
@@ -20,11 +20,6 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
     ];
     
     document.getElementById('swiper').style.width = $scope.photos.length * 100 + '%';
-    
-//     FlickrService.get().success(function (data) {        
-//         $scope.photos = data.photos;
-//         document.getElementById('swiper').style.width = $scope.photos.length * 100 + '%';        
-//     });
 
     var swipe = {
 
@@ -101,28 +96,4 @@ app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, Flickr
     };
     swipe.init();
 
-} ]);
-
-app.factory('FlickrService', ['$http', function ($http) {
-'use strict';
-    return {
-        xmlhttp: function (req) {
-            return $http(req)
-                .success(function (data) {
-                    return data;
-                })
-                .error(function (err) {
-                    return err;
-                });
-        },
-
-        get: function () {
-
-            var req = {
-                method: 'GET',
-                url: 'http://denniscalvert.azurewebsites.net/api/flickr/'
-            };
-            return this.xmlhttp(req);
-        }
-    };
 } ]);
