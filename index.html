@@ -12,7 +12,7 @@
     <body ng-app="SwipeApp">
         <div ng-controller="SwipeCtrl" class="swipe-global">
             <div class="swipe-wrapper" id="swiper">
-                <div ng-repeat="photo in photos.photo track by $index" class="slide" style="background-image: url('https://farm{{photo.farm}}.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}.jpg');">
+                <div ng-repeat="photo in photos track by $index" class="slide" style="background-image: url('{{photo}}');">
                 </div> 
             </div>            
         </div>
