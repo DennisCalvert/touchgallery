@@ -1,11 +1,30 @@
+// TODO
+// remove angular
+// allow photos to 
+//        1) be inject via JSON
+//        2) scrape the DOM
+
 var app = angular.module('SwipeApp', []);
 
 app.controller('SwipeCtrl', ['$scope', 'FlickrService', function ($scope, FlickrService) {
 'use strict';
-    FlickrService.get().success(function (data) {        
-        $scope.photos = data.photos;
-        document.getElementById('swiper').style.width = $scope.photos.length * 100 + '%';        
-    });
+    
+    $scope.photos = [
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/0.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/1.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/2.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/3.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/4.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/5.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/6.jpg',
+    ];
+    
+    document.getElementById('swiper').style.width = $scope.photos.length * 100 + '%';
+    
+//     FlickrService.get().success(function (data) {        
+//         $scope.photos = data.photos;
+//         document.getElementById('swiper').style.width = $scope.photos.length * 100 + '%';        
+//     });
 
     var swipe = {
 
