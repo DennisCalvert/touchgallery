@@ -16,6 +16,8 @@
         'https://denniscalvert.s3.us-east-2.amazonaws.com/bhm-bw-film/party-05.jpg',
         'https://denniscalvert.s3.us-east-2.amazonaws.com/bhm-bw-film/party-06.jpg',
         'https://denniscalvert.s3.us-east-2.amazonaws.com/bhm-bw-film/party-07.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/bhm-bw-film/party-08.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/bhm-bw-film/party-09.jpg',
     ];
     
     const photoFragment = new DocumentFragment();
