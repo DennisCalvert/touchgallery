@@ -9,13 +9,13 @@
 'use strict';
     
     var photos = [
-        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/0.jpg',
-        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/1.jpg',
-        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/2.jpg',
-        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/3.jpg',
-        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/4.jpg',
-        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/5.jpg',
-        'https://denniscalvert.s3.us-east-2.amazonaws.com/ui-demos/touch-gallery/6.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/bhm-bw-film/party-01.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/bhm-bw-film/party-02.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/bhm-bw-film/party-03.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/bhm-bw-film/party-04.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/bhm-bw-film/party-05.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/bhm-bw-film/party-06.jpg',
+        'https://denniscalvert.s3.us-east-2.amazonaws.com/bhm-bw-film/party-07.jpg',
     ];
     
     const photoFragment = new DocumentFragment();
@@ -25,6 +25,9 @@
             const photoWrapper = document.createElement("div")
             photoWrapper.classList.add("slide")
             photoWrapper.style.backgroundImage = `url(${photoURL})`;
+            // TODO make orientation switchable
+            photoWrapper.style.width = `${window.innerWidth}px`;
+            photoWrapper.style.height = `${window.innerWidth * 1.50}px`;
             photoFragment.appendChild(photoWrapper)
         }
     )
@@ -43,7 +46,8 @@
         isWebkit: undefined,
 
         slideDistance: function(){
-            return (window.innerWidth > 660) ? 600 : 300;
+            return window.innerWidth;
+            // return (window.innerWidth > 660) ? 600 : 300;
         },
 
         setSwipeTransformX: function (x) {
@@ -77,6 +81,18 @@
             return (this.slideDistance() * this.index + this.movex);
         },
 
+        calculateIndex: function () {
+            if (Math.abs(this.movex) > (this.slideWidth / 10)) {
+                if (this.movex > 0) { 
+                    this.index += 1;
+                } else if (this.index >= 1) {
+                    this.index -= 1;
+                }
+                if(this.index >= photos.length) {
+                    this.index -= 1;
+                }
+            }
+        },
 
         start: function (event) {            
             document.getElementById('swiper').classList.remove('isSliding');
@@ -94,11 +110,7 @@
 
         end: function (event) {
             document.getElementById('swiper').classList.add('isSliding');            
-
-            if (Math.abs(this.movex) > (this.slideWidth / 10)) {
-                if (this.movex > 0) { this.index += 1; }
-                else if (this.index >= 1) { this.index -= 1; }
-            }
+            this.calculateIndex();
             this.currentY = this.slideDistance() * this.index;
             this.setSwipeTransformX(this.currentY);            
             event.target.classList.remove('isTouched');
